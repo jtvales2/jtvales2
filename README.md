@@ -1,11 +1,11 @@
 # Robotics & Embedded Systems
 
-I build robotics and embedded systems across STM32 firmware and ROS 2, with a focus on real-time control, sensor integration, system debugging, and hands-on testing. My projects span both self-developed quadrotor flight-control firmware and mobile robot systems.
+I build robotics and embedded systems across STM32 firmware and ROS 2, with a focus on real-time control, sensor integration, system debugging, and hands-on testing. My projects span self-developed flight-control firmware, mobile robots, and PX4/ROS 2 autonomous UAV mission systems.
 
 ## Focus
 
 - **Embedded systems** — STM32, interrupt-driven acquisition, SPI DMA, UART, motor control, encoders and IMU
-- **Robot system software** — ROS 2, Linux, odometry, TF, localization and navigation
+- **Robot system software** — ROS 2, PX4 Offboard, Linux, mission state machines, odometry, TF, localization and navigation
 - **System integration** — firmware-to-ROS communication, sensors, device management and bringup
 - **Engineering debugging** — timing, data freshness, performance, lifecycle and hardware/software fault isolation
 - **Real-world validation** — bench testing, flight and vehicle testing, logs and development records
@@ -59,6 +59,29 @@ Key engineering work:
 **Project evolution:**  
 [Watch the development video](https://github.com/jtvales2/greenhouse-mecanum-robot/blob/main/media/greenhouse_robot_project_evolution.mp4)
 
+### CUADC 2026 · PX4 + ROS 2 Autonomous UAV Mission System
+
+**Team Lead / Primary System Developer · 2-Person Team · 20-Day Development**
+
+**CUAV V6X / PX4 1.17 + Jetson Orin Nano Super + ROS 2 Humble + uXRCE-DDS + TensorRT**
+
+I led a two-person team in developing and integrating a multirotor mission system for CUADC 2026. I was responsible for system planning, ROS 2 mission software, PX4/Jetson integration, vision-to-payload control, testing and flight validation; my teammate designed the payload-release mechanism's mechanical structure.
+
+Key engineering work:
+
+- Integrated PX4 and Jetson over Ethernet/uXRCE-DDS, including vehicle-state monitoring, time synchronization and mission-readiness checks
+- Built a mission FSM covering takeoff, payload-zone transit, target observation, two-stage release, reconnaissance, return and PX4 native landing; added mission tokens, acknowledgements, timeouts and safe-hold/abort behavior
+- Developed a full-shadow control pipeline: **Dry-run Executor → Shadow Control → NED Offboard Preview → Typed `px4_msgs` Shadow → Live Gate**, separating simulated execution from real FMU inputs
+- Added command allowlisting, data-freshness checks and controlled Offboard activation, with staged verification before sending real flight-control setpoints
+- Integrated TensorRT-based vision, shared-camera processing and payload actuator command sequencing
+- Progressed through bench, shadow, short-distance and payload-flight tests, and recorded a continuous **full-course flight demonstration**
+
+**[View the engineering portfolio, architecture and validation media](https://github.com/jtvales2/cuadc-2026-px4-ros2-portfolio)**
+
+[Full-course flight video](https://github.com/jtvales2/cuadc-2026-px4-ros2-portfolio/blob/main/media/flight/full-course-flight.mp4) · [Original development documentary](https://github.com/jtvales2/cuadc-2026-px4-ros2-portfolio/blob/main/media/development/development-journey-original.mp4)
+
+*This repository is an engineering portfolio, not a source-code release. The mission software remains in active development and is being handed over to the next student team.*
+
 ## Technical Stack
 
 ```text
@@ -75,7 +98,8 @@ Embedded
 └── UART / Modbus-RTU
 
 Robotics
-├── ROS 2 Jazzy
+├── ROS 2 Jazzy / Humble
+├── PX4 / Offboard / uXRCE-DDS
 ├── Nav2
 ├── MPPI
 ├── AMCL
@@ -85,7 +109,7 @@ Robotics
 
 Systems
 ├── Linux / Ubuntu
-├── Raspberry Pi
+├── Raspberry Pi / Jetson Orin Nano
 ├── Git
 ├── systemd
 └── Hardware / Software Integration
